@@ -33,7 +33,7 @@ class WelcomeScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 20.h ),
             child: Column(
               children: [
-                _buildCenterText('إدارة مستودع غذائيات', TextStyle(fontSize: 24,color: ColorsManager.customTeal,letterSpacing: 1.3,fontWeight: FontWeight.w600,fontFamily: 'Roboto')),
+                _buildCenterText('إدارة متجر غذائيات', TextStyle(fontSize: 24,color: ColorsManager.customTeal,letterSpacing: 1.3,fontWeight: FontWeight.w600,fontFamily: 'Roboto')),
                 SizedBox(height: 80.h,),
                 SvgPicture.asset('assets/svgs/food_shoping.svg',width: MediaQuery.of(context).size.width * 0.9,
                   fit: BoxFit.fitWidth,),

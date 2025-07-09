@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_managemnet/controllers/home_controllers/home_controller.dart';
+import 'package:food_managemnet/core/routing/routes.dart';
 import 'package:food_managemnet/core/theming/colors_manager.dart';
 import 'package:food_managemnet/core/widgets/search_text_field.dart';
 import 'package:get/get.dart';
@@ -11,17 +13,92 @@ class HomeScreen extends StatelessWidget {
 
   final HomeController homeController = Get.find<HomeController>();
 
+
+
+  Widget buildDivider(){
+    return SizedBox(
+      width: 100.w,
+      child: Divider(
+        thickness: 1,
+        color: ColorsManager.customGrey,
+      ),
+    );
+  }
+
+  Widget buildDrawerTile(IconData iconData , String title ,VoidCallback onTap){
+    return ListTile(
+      onTap: onTap,
+      leading: Icon(iconData,color: ColorsManager.customTeal ,size: 23,),
+      title: Text(title,style: TextStyle(fontSize: 16),),
+    );
+  }
+
+  Widget buildDrawerContent(BuildContext context) {
+    return Drawer(
+      child: SafeArea(
+        child: Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+               SizedBox(height: 100.h,),
+               buildDrawerTile(Icons.list_rounded,'الطلبات المعلقة', () {
+               }),
+               buildDivider(),
+
+               buildDrawerTile(Icons.list_alt,'الطلبات الجاهزة', () {
+               }),
+               buildDivider(),
+               buildDrawerTile(Icons.calculate_sharp,'الفواتير', () {
+               }),
+               buildDivider(),
+               buildDrawerTile(Icons.add_box_rounded,'تقديم اقتراح', () {
+               }),
+               buildDivider(),
+                  Spacer(),
+               GestureDetector(
+                onTap: (){
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width *0.6,
+                  height: 50.h,
+                  margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("تسجيل خروج",
+                          style: TextStyle(fontSize: 20, color: Colors.white)),
+                    ],
+                  ),
+                  decoration: BoxDecoration(
+                      color: ColorsManager.customTeal,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                ),
+              ),
+              SizedBox(height: 50.h,),
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: ColorsManager.customTeal
+        ),
         elevation: 0,
         title: SearchTextField(searchController: TextEditingController(), hint: 'ابحث عن منتج...'),
         actions: [
           IconButton(
               onPressed: () {
+                Navigator.pushNamed(context, Routes.notificationsScreen);
               },
               splashRadius: 20,
               icon: Icon(
@@ -31,6 +108,7 @@ class HomeScreen extends StatelessWidget {
               )),
         ],
       ),
+      drawer: buildDrawerContent(context),
       body: Obx(()=>homeController.homeWidgets[homeController.selectedIndex.value]),
       bottomNavigationBar: Obx(()=> StylishBottomBar(
           elevation: 3,

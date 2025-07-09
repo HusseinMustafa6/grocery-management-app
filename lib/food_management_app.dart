@@ -5,6 +5,7 @@ import 'package:food_managemnet/core/routing/app_router.dart';
 import 'package:food_managemnet/core/routing/routes.dart';
 import 'package:food_managemnet/views/home_screens/home_screen.dart';
 import 'package:food_managemnet/views/authentication_screens/register_screen.dart';
+import 'package:food_managemnet/views/update_screens/change_password_screen.dart';
 import 'package:food_managemnet/views/welcome_screen.dart';
 import 'package:get/get.dart';
 
@@ -42,8 +43,8 @@ class FoodManagementApp extends StatelessWidget {
 
             return supportedLocals.first;
           },
-          //home: child,
-          initialRoute: Routes.homeScreen,
+          //home: HomeScreen(),
+          initialRoute: Routes.welcomeScreen,
           routes: AppRouter.routes,
 
         );

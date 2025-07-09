@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_managemnet/controllers/home_controllers/profile_controller.dart';
+import 'package:food_managemnet/core/routing/routes.dart';
 import 'package:food_managemnet/core/widgets/custom_button.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -148,6 +149,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 buttonHeight: 60,
                 buttonText: 'تعديل', textStyle: TextStyle(fontSize: 16,color: Colors.white,fontWeight: FontWeight.w600,fontFamily: 'Roboto'), onPressed: (){
                  profileController.enableEdit.toggle();
+            }),
+            SizedBox(height: 30.h,),
+            CustomButton(
+                buttonWidth: MediaQuery.of(context).size.width * 0.7,
+                backgroundColor: ColorsManager.customCyan,
+                buttonHeight: 60,
+                buttonText: 'تغير كلمة المرور', textStyle: TextStyle(fontSize: 16,color: Colors.white,fontWeight: FontWeight.w600,fontFamily: 'Roboto'), onPressed: (){
+               Navigator.pushNamed(context, Routes.changePasswordScreen);
             })
 
 

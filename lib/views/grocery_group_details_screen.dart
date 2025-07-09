@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_managemnet/core/widgets/category_filter_chip.dart';
-import 'package:food_managemnet/models/grocery_model.dart';
+import 'package:food_managemnet/models/home_models/grocery_model.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../controllers/grocery_group_details_controller.dart';
 
 
 class GroceryGroupDetailsScreen extends StatefulWidget {
 
-  GroceryGroupModel groceryGroup;
+  int? groceryGroupID;
 
-  GroceryGroupDetailsScreen(this.groceryGroup);
+  GroceryGroupDetailsScreen(this.groceryGroupID);
 
   @override
   State<GroceryGroupDetailsScreen> createState() => _GroceryGroupDetailsScreenState();
@@ -17,6 +21,14 @@ class GroceryGroupDetailsScreen extends StatefulWidget {
 class _GroceryGroupDetailsScreenState extends State<GroceryGroupDetailsScreen> {
 
 
+  GroceryGroupDetailsController controller = Get.find<GroceryGroupDetailsController>();
+
+
+  @override
+  void initState() {
+    controller.getSubcategories(widget.groceryGroupID);
+    super.initState();
+  }
 
 
   Widget _buildTitleText(String title){
@@ -46,12 +58,24 @@ class _GroceryGroupDetailsScreenState extends State<GroceryGroupDetailsScreen> {
               children: [
                 _buildTitleText('المجموعات الغذائية:'),
                  SizedBox(height: 18.h,),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: widget.groceryGroup.categories.map((obj)=> CategoryFilterChip(categoryName: obj.toString())).toList(),
-                  ),
-                )
+                Obx((){
+
+                  if(controller.errorInSubcategories.isFalse){
+
+                    if(controller.subcategories.isNotEmpty){
+                      return  SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            children: controller.subcategories.map((obj)=> CategoryFilterChip(categoryName: obj.groupName.toString()) ).toList() ,//widget.groceryGroup.categories.map((obj)=> CategoryFilterChip(categoryName: obj.toString())).toList(),
+                        ),
+                      );
+                    }else{
+                      return SizedBox.shrink();
+                    }
+                  }
+                  return Text('حدث خطأ ما',style: TextStyle(fontSize: 15,color: Colors.black54),);
+                }),
+
 
               ],
             ),

@@ -11,6 +11,11 @@ class Routes{
 
   static const String homeScreen = "/homeScreen";
 
+  static const String changePasswordScreen = "/changePasswordScreen";
+
+  //static const String groceryGroupDetailsScreen = "/groceryGroupDetailsScreen";
+
+  static const String notificationsScreen = "/notificationsScreen";
 
 
 }

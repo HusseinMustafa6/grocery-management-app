@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_managemnet/models/grocery_model.dart';
+import 'package:food_managemnet/models/home_models/grocery_model.dart';
 import 'package:food_managemnet/views/grocery_group_details_screen.dart';
 
 
 class GroceryGroupTile extends StatelessWidget {
+
+  // will handle get categories API
+
 
   final GroceryGroupModel groceryGroupModel;
 
@@ -19,7 +22,7 @@ class GroceryGroupTile extends StatelessWidget {
     return GestureDetector(
       onTap: (){
         Navigator.push(context, MaterialPageRoute(builder: (context){
-          return GroceryGroupDetailsScreen(groceryGroupModel);
+          return GroceryGroupDetailsScreen(groceryGroupModel.id);
         }));
       },
       child: Container(
@@ -27,7 +30,7 @@ class GroceryGroupTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.asset(groceryGroupModel.imagePath.toString(),
+            SvgPicture.asset( groceryGroupModel.groupName.toString() == 'category 3 test' ? 'assets/svgs/canned_food.svg':'assets/svgs/salt_and_pepper.svg',
             width: 24.w,height:24.h ,
             ),
             SizedBox(height: 5.h,),

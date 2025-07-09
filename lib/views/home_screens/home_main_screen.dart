@@ -2,12 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:food_managemnet/controllers/home_controllers/home_main_screen_controller.dart';
 import 'package:food_managemnet/core/theming/colors_manager.dart';
-import 'package:food_managemnet/core/widgets/grocery_group_tile.dart';
+import 'package:food_managemnet/core/widgets/home_widgets/grocery_group_tile.dart';
+import 'package:food_managemnet/core/widgets/home_widgets/product_tile.dart';
 import 'package:food_managemnet/core/widgets/service_card.dart';
+import 'package:food_managemnet/models/home_models/product_model.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
-import '../../models/grocery_model.dart';
+import '../../models/home_models/grocery_model.dart';
 
 
 class HomeMainScreen extends StatefulWidget {
@@ -20,7 +27,10 @@ class HomeMainScreen extends StatefulWidget {
 class _HomeMainScreenState extends State<HomeMainScreen> {
 
  
-  
+
+  HomeMainScreenController controller = Get.find<HomeMainScreenController>();
+
+
 
   Widget _buildHorizontalDivider(double width,double thickness){
     return SizedBox(
@@ -91,17 +101,25 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
             SizedBox(height: 20.h,),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  GroceryGroupTile( groceryGroupModel:GroceryGroupModel( groupName: 'البقوليات', imagePath: 'assets/svgs/beans.svg', categories: ['all','category 1','category 2' ,'category 3','category 4'])),
-                  GroceryGroupTile(groceryGroupModel: GroceryGroupModel(groupName: 'الحلويات', imagePath: 'assets/svgs/sweets_sugar.svg', categories: ['all']),),
-                  GroceryGroupTile(groceryGroupModel: GroceryGroupModel(groupName: 'المأكولات البحرية', imagePath: 'assets/svgs/sea_food.svg',categories: ['all']),),
-                  GroceryGroupTile(groceryGroupModel: GroceryGroupModel(groupName: 'البهارات', imagePath: 'assets/svgs/salt_and_pepper.svg',categories: ['all']),),
-                  GroceryGroupTile(groceryGroupModel: GroceryGroupModel(groupName: 'المعلبات', imagePath: 'assets/svgs/canned_food.svg', categories: ['all']),),
-
+              child: Obx(()=>  controller.errorInCategories.isFalse ? Row(
+                children: controller.categories.isNotEmpty ? controller.categories.map((category)=> GroceryGroupTile(groceryGroupModel: category)).toList() : [
+                  Text('لا يوجد مجموعات غذائية',style: TextStyle(fontSize: 15,color: Colors.black54),)
                 ],
-              ),
-            )
+              ): Text('حدث خطأ ما',style: TextStyle(fontSize: 15,color: Colors.black54),))
+            ),
+            _buildHorizontalDivider(MediaQuery.of(context).size.width,1),
+            SizedBox(height: 20.h),
+            AlignedGridView.count(
+                crossAxisCount: 2,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 16,
+                itemCount: 8,
+                shrinkWrap: true,
+                physics: BouncingScrollPhysics(),
+                itemBuilder:(context,index){
+                  return ProductTile(ProductModel(id: 1,title: 'TEST PRODUCT',description: 'Long Description Long Description Long Description Long Description Long Description Long Description Long Description'));
+                })
+
 
           ],
         ),
