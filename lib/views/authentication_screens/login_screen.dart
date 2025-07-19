@@ -133,9 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               if (value!.isEmpty || value == null) {
                                 return 'يرجى إدخال كلمة السر';
                               }
-                              if (value.length < 8) {
-                                return 'يجب ألا يقل طول كلمة عن 8 محارف';
-                              }
+                              // if (value.length < 8) {
+                              //   return 'يجب ألا يقل طول كلمة عن 8 محارف';
+                              // }
                             },
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(

@@ -109,16 +109,38 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
             ),
             _buildHorizontalDivider(MediaQuery.of(context).size.width,1),
             SizedBox(height: 20.h),
-            AlignedGridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 16,
-                itemCount: 8,
-                shrinkWrap: true,
-                physics: BouncingScrollPhysics(),
-                itemBuilder:(context,index){
-                  return ProductTile(ProductModel(id: 1,title: 'TEST PRODUCT',description: 'Long Description Long Description Long Description Long Description Long Description Long Description Long Description'));
-                })
+            Obx((){
+
+              if(controller.errorInAllItems.isFalse){
+
+                if(controller.allItems.isNotEmpty){
+                  return AlignedGridView.count(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 8,
+                      crossAxisSpacing: 16,
+                      itemCount: controller.allItems.length,
+                      shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
+                      itemBuilder:(context,index){
+                        return ProductTile(controller.allItems[index]);
+                      });
+                }else{
+                  return Container(
+                    margin: EdgeInsets.symmetric(vertical: 20.h),
+                    child: Text('لا يوجد منتجات ليتم عرضها',style: TextStyle(fontSize: 15,color: Colors.black54),),
+                  );
+                }
+
+              }else{
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 20.h),
+                  child: Text(controller.errorMessageInAllItems.toString(),style: TextStyle(fontSize: 15,color: Colors.black54),),
+                );
+              }
+
+
+            }),
+
 
 
           ],

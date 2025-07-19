@@ -5,10 +5,12 @@ import 'package:food_managemnet/controllers/home_controllers/home_main_screen_co
 import 'package:food_managemnet/controllers/home_controllers/notifications_controller.dart';
 import 'package:food_managemnet/controllers/home_controllers/profile_controller.dart';
 import 'package:food_managemnet/controllers/home_controllers/shopping_cart_controller.dart';
+import 'package:food_managemnet/controllers/item_details_controller.dart';
 import 'package:food_managemnet/controllers/login_controller.dart';
 import 'package:food_managemnet/controllers/register_controller.dart';
 import 'package:food_managemnet/controllers/welcome_controller.dart';
 import 'package:food_managemnet/core/networking/dio_factory.dart';
+import 'package:food_managemnet/models/item_models/item_details_model.dart';
 import 'package:food_managemnet/views/welcome_screen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -35,6 +37,8 @@ void initDependencyInjection(){
   Get.lazyPut(()=>HomeMainScreenController());
   Get.lazyPut(()=>GroceryGroupDetailsController());
   Get.put(NotificationsController());
+  Get.put(ItemDetailsController());
+
 
 }
 

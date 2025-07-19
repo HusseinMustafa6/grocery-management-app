@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_managemnet/controllers/home_controllers/home_controller.dart';
+import 'package:food_managemnet/controllers/home_controllers/shopping_cart_controller.dart';
 import 'package:food_managemnet/core/routing/routes.dart';
 import 'package:food_managemnet/core/theming/colors_manager.dart';
 import 'package:food_managemnet/core/widgets/search_text_field.dart';
@@ -155,7 +156,13 @@ class HomeScreen extends StatelessWidget {
          hasNotch: false,
          currentIndex: homeController.selectedIndex.value,
          onTap: (value){
-            homeController.selectedIndex.value = value;
+           homeController.selectedIndex.value = value;
+           if(value == 1){
+              ShoppingCartController controller = Get.find<ShoppingCartController>();
+              controller.cartItems.clear();
+              controller.getUserCartItems();
+            }
+
          },
 
 

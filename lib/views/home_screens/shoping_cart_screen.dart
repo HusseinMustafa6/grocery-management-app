@@ -55,6 +55,7 @@ class _ShopingCartScreenState extends State<ShopingCartScreen> {
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Roboto'),
               onPressed: () {
+                controller.checkItemsQuantity();
                 showDialog<void>(
                   context: context,
                   barrierDismissible: false,

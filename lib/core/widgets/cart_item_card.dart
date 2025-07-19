@@ -1,33 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_managemnet/controllers/home_controllers/shopping_cart_controller.dart';
 import 'package:food_managemnet/core/theming/colors_manager.dart';
 import 'package:food_managemnet/models/grocery_item_model.dart';
+import 'package:food_managemnet/models/item_models/cart_item_model.dart';
 import 'package:get/get.dart';
 
 
 class CartItemCard extends StatelessWidget {
 
-  final GroceryItem groceryItem;
+  final CartItemModel cartItemModel;
 
 
-  CartItemCard(this.groceryItem);
+  CartItemCard(this.cartItemModel);
 
 
   ShoppingCartController cartController = Get.find<ShoppingCartController>();
 
+  RxInt quantity = 0.obs;
+
 
   void _changeQuantity(int addedValue){
-    if(groceryItem.quantity.value <= 100 && groceryItem.quantity.value + 1   >= 1 ){
-      groceryItem.quantity.value += addedValue;
+
+    if(quantity.value <= 100 && quantity.value  - 1   > 0 ){
+      quantity.value += addedValue;
     }
+    cartItemModel.quantity = quantity.value.toString();
     cartController.calculateTotalPrice();
+
+    //cartController.updateItemQuantity(cartItemModel);
   }
 
 
   Widget _buildQuantityWidget(){
+     quantity.value = num.parse(cartItemModel.quantity.toString()).toInt();
 
-    return Container(
+     return Container(
       height: 30.h,
       width: 70.w,
       decoration: BoxDecoration(
@@ -57,7 +66,7 @@ class CartItemCard extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Colors.white,
             ),
-            child: Center(child: Obx(()=>Text(groceryItem.quantity.toString(),style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: 'Roboto'),))),
+            child: Center(child: Obx(()=> Text('${quantity.value}',style: TextStyle(fontSize: 14,color: Colors.black,fontFamily: 'Roboto'),))),
           ),
           GestureDetector(
             onTap: (){
@@ -100,7 +109,7 @@ class CartItemCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.asset(
-                  groceryItem.imagePath.toString(),
+                  'assets/images/cart_item_pic.png',
                   width: 80.w,
                   height: 80.h,
                   fit: BoxFit.cover,
@@ -112,14 +121,14 @@ class CartItemCard extends StatelessWidget {
              child: Column(
                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(groceryItem.itemName.toString() ,style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black,fontFamily: 'Roboto'),maxLines:1,overflow: TextOverflow.ellipsis,),
+                  Text('Cart Item Model',style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black,fontFamily: 'Roboto'),maxLines:1,overflow: TextOverflow.ellipsis,),
                   SizedBox(height: 8.h,),
-                  Text(groceryItem.itemDescription.toString() ,style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black54,fontFamily: 'Roboto'),maxLines: 4,overflow: TextOverflow.ellipsis,),
+                  Text('Description about this cart item object' ,style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.black54,fontFamily: 'Roboto'),maxLines: 4,overflow: TextOverflow.ellipsis,),
                   SizedBox(height: 10.h,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                       Expanded(child: Text('\$ ${groceryItem.itemPrice}',style: TextStyle(fontSize: 14,color: Colors.green,fontFamily: 'Roboto' ,fontWeight:FontWeight.w500,),maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                       Expanded(child: Text('\$ ${cartItemModel.priceForOne}',style: TextStyle(fontSize: 14,color: Colors.green,fontFamily: 'Roboto' ,fontWeight:FontWeight.w500,),maxLines: 1,overflow: TextOverflow.ellipsis,)),
                     ],
                   )
               
@@ -128,10 +137,21 @@ class CartItemCard extends StatelessWidget {
             ),
             Column(
               children: [
-             IconButton(onPressed: (){
+             IconButton(onPressed: () async{
 
-               cartController.cartItems.removeWhere((obj)=> obj.itemName == 'TEST PRODUCT');
-                  cartController.calculateTotalPrice();
+               //cartController.cartItems.removeWhere((obj)=> obj.itemName == 'TEST PRODUCT');
+               final response = await cartController.deleteItemFromCart(cartItemModel.id);
+               cartController.cartItems.clear();
+               await cartController.getUserCartItems();
+                  //cartController.calculateTotalPrice();
+
+               response.fold((errorMsg){
+                 EasyLoading.showError(errorMsg.apiErrorModel.message.toString(),dismissOnTap: false,duration: Duration(seconds: 2));
+               },
+                       (successMsg){
+                 EasyLoading.showSuccess(successMsg,duration: Duration(seconds: 2),dismissOnTap: false);
+               });
+
 
              }, icon: Icon(Icons.delete_outline,color: Colors.red,)),
                 SizedBox(height: 20.h,),
