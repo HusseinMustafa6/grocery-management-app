@@ -1,5 +1,7 @@
 
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -8,6 +10,7 @@ import 'package:food_managemnet/controllers/home_controllers/home_main_screen_co
 import 'package:food_managemnet/core/theming/colors_manager.dart';
 import 'package:food_managemnet/core/widgets/home_widgets/grocery_group_tile.dart';
 import 'package:food_managemnet/core/widgets/home_widgets/product_tile.dart';
+import 'package:food_managemnet/core/widgets/offer_widgets/offer_card.dart';
 import 'package:food_managemnet/core/widgets/service_card.dart';
 import 'package:food_managemnet/models/home_models/product_model.dart';
 import 'package:get/get.dart';
@@ -29,6 +32,35 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
  
 
   HomeMainScreenController controller = Get.find<HomeMainScreenController>();
+
+
+
+  Widget _buildPointsWidget(){
+    return Obx(()=> Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.w,vertical: 10.h),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12.r),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15,sigmaY: 15),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 5.h),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(12.r),
+              border: Border.all(width: 2,color: Colors.white30)
+            ),
+            child: Text('Your Points : ${controller.userPoints.value}',style: TextStyle(
+              fontSize: 18,
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+              fontFamily: 'Roboto'
+            ),),
+          ),
+        ),
+      ),
+    ));
+  }
+
 
 
 
@@ -65,30 +97,57 @@ class _HomeMainScreenState extends State<HomeMainScreen> {
              padding: EdgeInsets.symmetric(horizontal: 10.w),
              child: Column(
                children: [
-                 SvgPicture.asset('assets/svgs/rectangle.svg',
-                   width: MediaQuery.of(context).size.width,
-                   fit: BoxFit.fitWidth,
+                 Stack(
+                   alignment: Alignment.center,
+                   children: [
+                     SvgPicture.asset('assets/svgs/rectangle.svg',
+                       width: MediaQuery.of(context).size.width,
+                       fit: BoxFit.fitWidth,
+                     ),
+                     _buildPointsWidget()
+                   ],
                  ),
+
                  SizedBox(height: 24.h,),
-                 _buildTitleText('الخدمات:'),
+                 _buildTitleText('العروض:'),
                  SizedBox(height: 16.h,),
                  SingleChildScrollView(
                    scrollDirection: Axis.horizontal,
-                   child: Row(
-                     children: [
-                       SizedBox(width: 5.w,),
-                       ServiceCard(serviceName: 'الخدمة',icon: Icons.storefront,mainColor:ColorsManager.customCyan ,secondColor: ColorsManager.customLightCyan,),
-                       SizedBox(width: 5.w,),
-                       ServiceCard(serviceName: 'طلب خاص',icon: Icons.newspaper,mainColor:ColorsManager.customPurple ,secondColor: ColorsManager.customLightPurple,),
-                       SizedBox(width: 5.w,),
-                       ServiceCard(serviceName: 'الخصومات',icon: Icons.discount_sharp,mainColor:ColorsManager.customYellow ,secondColor: ColorsManager.customLightYellow,),
-                       SizedBox(width: 5.w,),
-                       ServiceCard(serviceName: 'الخدمة',icon: Icons.storefront,mainColor:ColorsManager.customCyan ,secondColor: ColorsManager.customLightCyan,),
-                       SizedBox(width: 5.w,),
+                   child: Obx((){
 
+                     if(controller.offersLoading.isTrue){
+                      return Container(
+                        margin: EdgeInsets.symmetric(vertical: 18.h),
+                        child: CircularProgressIndicator(
+                          color: ColorsManager.customTeal,
+                        ),
+                      );
+                     }else{
 
-                     ],
-                   ),
+                       if(controller.offersStatus.isTrue){
+
+                        if(controller.allOffers.isNotEmpty){
+                          return Row(
+                            children: controller.allOffers.map((obj)=> OfferCard(obj)).toList(),
+                          );
+                        }else{
+                          return Row(
+                            children: [
+                              Text('لا يوجد عروض خاصة',style: TextStyle(fontSize: 16,color: Colors.black54),)
+                            ],
+                          );
+                        }
+                       }else{
+                         return Row(
+                           children: [
+                             Text('Server Error',style: TextStyle(fontSize: 16,color: Colors.black54),)
+                           ],
+                         );
+                       }
+
+                     }
+
+                   })
                  ),
                  SizedBox(height: 24.h,),
                  _buildTitleText('المجموعات الغذائية:'),

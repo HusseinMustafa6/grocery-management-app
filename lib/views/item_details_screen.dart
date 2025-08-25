@@ -26,11 +26,18 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   final ItemDetailsController controller =  Get.find<ItemDetailsController>();
 
 
+  RxInt? selectedUnit;
+  RxInt selectedQuantity = 1.obs;
+
+  TextEditingController quantityController = TextEditingController();
+
+
   @override
   initState(){
     setState(() {
       controller.getItemDetails(widget.itemId);
       controller.getItemUnitDetails(widget.itemId);
+      controller.getAllUnits();
     });
     super.initState();
   }
@@ -40,7 +47,80 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     controller.dispose();
     super.dispose();
   } 
-  
+
+
+  Widget _buildSelectQuantityWidget(){
+
+    return TextField(
+      controller: quantityController,
+      onTap: (){
+
+      },
+      onChanged: (value){
+
+      },
+      decoration: InputDecoration(
+        hintText: 'ادخل الكمية المطلوبة',
+        hintStyle: TextStyle(fontSize: 15,color: Colors.black54)
+      ),
+      keyboardType: TextInputType.number,
+      maxLength: 3,
+    );
+
+    // List<int> quantity = controller.buildAvilableQunatityOptions();
+    //
+    // return Obx((){
+    //   return DropdownButton<int>(
+    //       hint: Text('اختر الكمية',style: TextStyle(fontSize: 15,color: Colors.black54),),
+    //       value: selectedQuantity.value,
+    //       items:quantity.map((obj)=>DropdownMenuItem<int>(
+    //       value: obj,
+    //       child: Text(obj.toString(),style: TextStyle(fontSize: 15,color: Colors.black54),))).toList(),
+    //       underline: Container(
+    //         height: 1.0,
+    //         decoration: BoxDecoration(
+    //             border: Border(
+    //                 bottom: BorderSide(
+    //                     color: ColorsManager.customGrey,
+    //                     width: 0.5
+    //                 )
+    //             )
+    //         ),
+    //       ),
+    //       onChanged:(value){
+    //        selectedQuantity.value = value!;
+    //       });
+    // });
+  }
+
+  Widget _buildSelectUnitType(){
+    selectedUnit = controller.currentUnits!.first.id!.obs;
+    /*
+
+     */
+    return Obx(()=> DropdownButton<int?>(
+        value: selectedUnit?.value,
+        hint: Text('اختر واحدة القياس',style: TextStyle(fontSize: 15,color: Colors.black54),),
+        items: controller.currentUnits?.map((obj)=>DropdownMenuItem<int?>(
+            value: obj.id,
+            child: Text(obj.name.toString(),style:
+            TextStyle(fontSize: 15,color: Colors.black54),))).toList(),
+        underline: Container(
+          height: 1.0,
+          decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                      color: ColorsManager.customGrey,
+                      width: 0.5
+                  )
+              )
+          ),
+        ),
+        onChanged: (value){
+          selectedUnit?.value = value!;
+
+        }));
+  }
   
   Widget _buildAddToCartButton(BuildContext context){
     return ElevatedButton(
@@ -65,11 +145,21 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
           showDialog(context: context,
               builder: (ctx){
             return AlertDialog(
-              content: Text('هل تريد اضافة هذا المنتج إلى سلة الشراء الخاصة بك ؟',style: TextStyle(fontSize: 15,color: Colors.black54,fontFamily: 'Roboto',fontWeight: FontWeight.w600),),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('هل تريد اضافة هذا المنتج إلى سلة الشراء الخاصة بك ؟',style: TextStyle(fontSize: 15,color: Colors.black54,fontFamily: 'Roboto',fontWeight: FontWeight.w600),),
+                  SizedBox(height: 12.h,),
+                  _buildSelectUnitType(),
+                  SizedBox(height: 8.h,),
+                  _buildSelectQuantityWidget()
+                ],
+              ),
               actions: [TextButton(onPressed: ()async{
                 Navigator.pop(context);
 
-               final response = await controller.addItemToCart(itemUnitId: controller.itemUnitModel?.id,quantity: 1 );
+                int? itemUnitIdToSend = controller.itemUnitsModel?.units.firstWhere((obj)=> obj.unitId == selectedUnit?.value).id;
+               final response = await controller.addItemToCart(itemUnitId: itemUnitIdToSend,quantity: num.parse(quantityController.text).toInt());
 
                response.fold((error){
                  ScaffoldMessenger.of(context).showSnackBar(
@@ -162,7 +252,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
              child: Obx((){
 
                if(controller.isExists.isTrue) {
-                 print('all IDs ${controller.itemUnitModel!.id} ${controller.itemDetailsModel!.id} ::');
+                 //print('all IDs ${controller.itemUnitModel!.id} ${controller.itemDetailsModel!.id} ::');
 
                  return Column(
                    children: [

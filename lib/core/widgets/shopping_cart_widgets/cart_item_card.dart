@@ -7,6 +7,8 @@ import 'package:food_managemnet/models/grocery_item_model.dart';
 import 'package:food_managemnet/models/item_models/cart_item_model.dart';
 import 'package:get/get.dart';
 
+import '../../networking/api_constants.dart';
+
 
 class CartItemCard extends StatelessWidget {
 
@@ -22,11 +24,16 @@ class CartItemCard extends StatelessWidget {
 
 
   void _changeQuantity(int addedValue){
-
-    if(quantity.value <= 100 && quantity.value  - 1   > 0 ){
+     print('Hellow Quantit');
+    if(quantity.value <= 100 && quantity.value    >= 1 && quantity.value !=0){
       quantity.value += addedValue;
     }
+
+    if(quantity.value < 1){
+      quantity.value = 1;
+    }
     cartItemModel.quantity = quantity.value.toString();
+    print(cartItemModel.quantity);
     cartController.calculateTotalPrice();
 
     //cartController.updateItemQuantity(cartItemModel);
@@ -108,12 +115,13 @@ class CartItemCard extends StatelessWidget {
             Expanded(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
+                child: cartItemModel.itemImage == null ? Image.asset(
                   'assets/images/cart_item_pic.png',
                   width: 80.w,
                   height: 80.h,
                   fit: BoxFit.cover,
-                ),),
+                ):Image.network(ApiConstants.imageBaseUrl + 'storage/' + cartItemModel.itemImage.toString(), width: 80.w,
+                  height: 80.h,),),
             ),
             SizedBox(width: 8.w),
             Expanded(

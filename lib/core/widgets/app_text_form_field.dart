@@ -14,6 +14,7 @@ class AppTextFormField extends StatelessWidget {
   final TextInputType? textInputType;
   final TextStyle? textStyle;
   final Color? fillColor;
+  final int? maxLines;
   final TextEditingController? controller;
   final Function(String?) validator;
   AppTextFormField({
@@ -27,6 +28,7 @@ class AppTextFormField extends StatelessWidget {
     this.textInputType,
     this.suffixIcon,
     this.fillColor,
+    this.maxLines,
     required this.controller,
     required this.validator,
   });
@@ -35,6 +37,7 @@ class AppTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines ?? 1,
       controller:  controller,
       keyboardType: textInputType ?? TextInputType.name,
       decoration: InputDecoration(

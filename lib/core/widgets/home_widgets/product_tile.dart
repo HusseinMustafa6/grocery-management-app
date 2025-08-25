@@ -85,7 +85,9 @@ class ProductTile extends StatelessWidget {
                       ),
                     ),
                     onPressed: (){
-                   //   GroceryItem item = GroceryItem(itemName: product.name, itemDescription: 'TEST', imagePath: 'assets/images/cart_item_pic.png', itemPrice: 100.00);
+                      Navigator.pushNamed(context, Routes.itemDetailsScreen,arguments: product.id);
+
+                      //   GroceryItem item = GroceryItem(itemName: product.name, itemDescription: 'TEST', imagePath: 'assets/images/cart_item_pic.png', itemPrice: 100.00);
                    //
                    //   ShoppingCartController cartController = Get.find<ShoppingCartController>();
                    //

@@ -2,9 +2,9 @@
 
 class ApiConstants {
 
-  static const String baseUrl = "http://192.168.1.107:8000/api/";
+  static const String baseUrl = "http://192.168.117.67:8000/api/";
 
-  static const String imageBaseUrl = "http://192.168.1.107:8000/";
+  static const String imageBaseUrl = "http://192.168.117.67:8000/";
 
 
   static const String loginUrl = "login";
@@ -23,6 +23,7 @@ class ApiConstants {
   static const String getItemUnitDetails = "showAllItemUnit/";
 
 
+  static const String getAllUnits = "showUnits";
 
   // SHOPPING CART APIs
 
@@ -30,8 +31,31 @@ class ApiConstants {
 
   static const String addItemToCart = "cart-items";
 
-  static const String deleteItemFromCart = "cart-items/";
+  static const String deleteItemFromCart = "cart-items/item/";
 
-  static const String updateItemFromCartQuantity = "cart-items/";
+  static const String updateItemFromCartQuantity = "cart-items/item/";
+
+
+  static const String deleteOfferFromCart = "cart-items/offer/";
+
+  static const String updateOfferFromCartQuantity = "cart-items/offer/";
+
+
+
+  // ORDER APIs
+
+  static const String checkOutOrder = "orders/confirm";
+
+  static const String getUserPoints = "showPoints";
+
+  static const String getPendingOrders = "getPendedOrders";
+
+
+
+
+
+
+  // OFFERs APIs
+  static const String getAllOffers = "showAllOffers";
 
 }

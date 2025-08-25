@@ -13,14 +13,18 @@ class CartItemModel {
   @JsonKey(name: 'how_many_each_one_has')
   final String? howManyEachOneHas; //"": "4.0000",
   @JsonKey(name: 'selling_price_for_one')
-  final String? priceForOne; //"": "5.00",
-
+  final String? priceForOne;
+  //"": "5.00",
+  @JsonKey(name: 'item_image')
+  final String? itemImage;
   CartItemModel(
       {this.id,
       this.itemUnitId,
       this.quantity,
       this.howManyEachOneHas,
-      this.priceForOne});
+      this.priceForOne ,
+      this.itemImage
+      });
 
 
   factory CartItemModel.fromJson(Map<String,dynamic> json)=> _$CartItemModelFromJson(json);

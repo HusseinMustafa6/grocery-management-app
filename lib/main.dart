@@ -7,6 +7,7 @@ import 'package:food_managemnet/controllers/home_controllers/profile_controller.
 import 'package:food_managemnet/controllers/home_controllers/shopping_cart_controller.dart';
 import 'package:food_managemnet/controllers/item_details_controller.dart';
 import 'package:food_managemnet/controllers/login_controller.dart';
+import 'package:food_managemnet/controllers/orders_controller.dart';
 import 'package:food_managemnet/controllers/register_controller.dart';
 import 'package:food_managemnet/controllers/welcome_controller.dart';
 import 'package:food_managemnet/core/networking/dio_factory.dart';
@@ -34,6 +35,7 @@ void initDependencyInjection(){
   Get.put(LoginController());
   Get.put(ShoppingCartController());
   Get.put(ProfileController());
+  Get.put(OrdersController());
   Get.lazyPut(()=>HomeMainScreenController());
   Get.lazyPut(()=>GroceryGroupDetailsController());
   Get.put(NotificationsController());

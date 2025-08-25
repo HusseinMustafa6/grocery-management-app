@@ -20,5 +20,8 @@ static const String notificationsScreen = "/notificationsScreen";
   static const String itemDetailsScreen = "/itemDetailsScreen";
 
 
+  static const String ordersScreen = "/ordersScreen";
+
+  static const String addNewItemPropositionScreen = "/addNewItemPropositionScreen";
 
 }

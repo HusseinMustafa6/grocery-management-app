@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_managemnet/controllers/home_controllers/home_controller.dart';
 import 'package:food_managemnet/controllers/home_controllers/shopping_cart_controller.dart';
@@ -43,6 +44,7 @@ class HomeScreen extends StatelessWidget {
             children: [
                SizedBox(height: 100.h,),
                buildDrawerTile(Icons.list_rounded,'الطلبات المعلقة', () {
+                 Navigator.pushNamed(context, Routes.ordersScreen);
                }),
                buildDivider(),
 
@@ -53,11 +55,20 @@ class HomeScreen extends StatelessWidget {
                }),
                buildDivider(),
                buildDrawerTile(Icons.add_box_rounded,'تقديم اقتراح', () {
+                 Navigator.pushNamed(context, Routes.addNewItemPropositionScreen);
                }),
                buildDivider(),
                   Spacer(),
                GestureDetector(
                 onTap: (){
+
+                 EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.chasingDots;
+                 EasyLoading.show(status: 'جاري تسجيل الخروج..',dismissOnTap: true,);
+                 Future.delayed(Duration(seconds: 2),(){
+                   EasyLoading.dismiss();
+                   Navigator.pushNamed(context,Routes.loginScreen);
+                 });
+
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width *0.6,
@@ -160,6 +171,7 @@ class HomeScreen extends StatelessWidget {
            if(value == 1){
               ShoppingCartController controller = Get.find<ShoppingCartController>();
               controller.cartItems.clear();
+              controller.cartOffers.clear();
               controller.getUserCartItems();
             }
 

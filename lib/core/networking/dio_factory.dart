@@ -36,6 +36,8 @@ class DioFactory {
     dio?.options.headers = {
       'Authorization': 'Bearer $token',
     };
+    dio?.options.followRedirects = false;
+    dio?.options.validateStatus = (status) { return status! < 500; };
   }
 
   static void addDioInterceptor() {
