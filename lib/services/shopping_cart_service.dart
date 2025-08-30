@@ -148,12 +148,29 @@ class ShoppingCartService {
 
     String url = ApiConstants.baseUrl + ApiConstants.checkOutOrder;
 
-
-    final data = {
-         'payment_type': order.paymentType,
-         'points_used':order.points,
-         'items':order.items.map((obj)=> obj.toJson()).toList()
+    Map<String,dynamic> data = {
+      'payment_type': order.paymentType,
+      'points_used':order.points,
+      'items':order.items.map((obj)=> obj.toJson()).toList(),
+      'offers':order.offers.map((obj)=>obj.toJson()).toList()
     };
+
+    if(order.items.isEmpty){
+      data =  {
+        'payment_type': order.paymentType,
+        'points_used':order.points,
+        'offers':order.offers.map((obj)=>obj.toJson()).toList()
+      };
+    }
+
+    if(order.offers.isEmpty){
+      data = {
+        'payment_type': order.paymentType,
+        'points_used':order.points,
+        'items':order.items.map((obj)=> obj.toJson()).toList(),
+      };
+    }
+
 
     print('FDAD $data');
 

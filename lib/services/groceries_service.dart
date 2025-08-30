@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:food_managemnet/core/networking/api_constants.dart';
+import 'package:food_managemnet/models/home_models/product_model.dart';
 import 'package:food_managemnet/models/home_models/subcategory_model.dart';
 
 
@@ -25,6 +26,25 @@ class GroceriesService{
       rethrow;
     }
   }
+
+
+  Future<List<ProductModel>> getItemsInCategory(int? categoryId)async{
+
+   String url = ApiConstants.baseUrl + ApiConstants.getItemsInCategory + categoryId.toString();
+
+   try{
+
+    Response response = await dio.get(url);
+
+    List<dynamic> items = response.data;
+
+    return items.map((obj)=>ProductModel.fromJson(obj)).toList();
+   }catch(error){
+     rethrow;
+   }
+
+  }
+
 
 
 

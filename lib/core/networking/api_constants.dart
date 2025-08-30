@@ -2,9 +2,9 @@
 
 class ApiConstants {
 
-  static const String baseUrl = "http://192.168.117.67:8000/api/";
+  static const String baseUrl = "http://192.168.1.102:8000/api/";
 
-  static const String imageBaseUrl = "http://192.168.117.67:8000/";
+  static const String imageBaseUrl = "http://192.168.1.102:8000/";
 
 
   static const String loginUrl = "login";
@@ -14,6 +14,10 @@ class ApiConstants {
   static const String groceryCategories = "showCategories";
 
   static const String getSubcategories = "showSubCategories/";
+
+
+  static const String getItemsInCategory = "ItemsInCategory/";
+
 
   // to show all avilable products in HOME Screen
   static const String getAllItems = "showAllItems";
@@ -50,6 +54,8 @@ class ApiConstants {
 
   static const String getPendingOrders = "getPendedOrders";
 
+  static const String getConfirmedOrders = "getUserActiveOrders";
+
 
 
 
@@ -57,5 +63,25 @@ class ApiConstants {
 
   // OFFERs APIs
   static const String getAllOffers = "showAllOffers";
+
+
+
+
+  // PRofile APIs
+ static const String changePassword = "updateProfile";
+
+
+
+
+ static const String getUserProfile = "profile";
+
+
+
+ static const String saveFcmToken = "notifications/store-device-token";
+
+
+ static const String getUserNotifications = "notifications";
+
+ static const String getUnpaid = "getAllUserUnpaidInstallments";
 
 }

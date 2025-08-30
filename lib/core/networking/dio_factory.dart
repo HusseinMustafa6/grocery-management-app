@@ -40,6 +40,7 @@ class DioFactory {
     dio?.options.validateStatus = (status) { return status! < 500; };
   }
 
+
   static void addDioInterceptor() {
     dio?.interceptors.add(
       PrettyDioLogger(

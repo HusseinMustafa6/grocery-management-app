@@ -1,5 +1,9 @@
 import 'dart:io';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:food_managemnet/core/networking/api_constants.dart';
+import 'package:food_managemnet/core/networking/api_error_handler.dart';
+import 'package:food_managemnet/services/profile_service.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController{
@@ -16,6 +20,7 @@ class ProfileController extends GetxController{
   late TextEditingController newPasswordController;
   late TextEditingController newPasswordConfirmationController;
   late GlobalKey<FormState> passwordFormKey;
+  late ProfileService profileService;
   RxBool showOldPassword = false.obs;
   RxBool showNewPassword = false.obs;
 
@@ -30,7 +35,7 @@ class ProfileController extends GetxController{
     newPasswordController = TextEditingController();
     newPasswordConfirmationController = TextEditingController();
     passwordFormKey = GlobalKey<FormState>();
-
+    profileService = ProfileService(Get.find());
   }
 
 
@@ -42,13 +47,46 @@ class ProfileController extends GetxController{
   }
 
   void getData(){
-    Future.delayed(Duration(seconds: 3),(){
-      userNameController.text = 'مستخدم تجريبي';
-      phoneController.text = '963965442879';
-      emailController.text = 'testUser@gmail.com';
-    });
 
   }
+  
+  
+  Future<Either<ErrorHandler,String>> changeUserPassword({required String oldPassword ,
+    required String newPassword,
+    required String newPasswordConfirmation
+  })async{
+    
+    try{
+      final response = await profileService.changeUserPassword(oldPassword: oldPassword, newPassword: newPassword, newPasswordConfirmation: newPasswordConfirmation);
+      
+      return Right(response);
+    }catch(error){
+      return Left(ErrorHandler.handle(error));
+    }
+    
+    
+  }
+
+
+  Future<Either<ErrorHandler,Map<String,dynamic>>> getUserProfile()async{
+
+
+    try{
+      final response = await profileService.getUserProfile();
+
+
+      print(response['name']!);
+
+      userNameController.text = response['name']!;
+      emailController.text = response['email']!;
+      phoneController.text = response['customer']['phone_number']!;
+      return Right(response);
+    }catch(error){
+     return Left(ErrorHandler.handle(error));
+    }
+  }
+  
+  
 
 
 

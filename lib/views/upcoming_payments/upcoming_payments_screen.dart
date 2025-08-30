@@ -1,37 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:food_managemnet/controllers/upcoming_payments_controller.dart';
+import 'package:food_managemnet/core/widgets/upcoming_payments_widgets/upcoming_payment_card.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-import '../../controllers/orders_controller.dart';
 import '../../core/theming/colors_manager.dart';
-import '../../core/widgets/orders_widgets/order_card.dart';
 
-class ActiveOrdersScreen extends StatefulWidget {
-  const ActiveOrdersScreen({super.key});
+
+class UpcomingPaymentsScreen extends StatefulWidget {
 
   @override
-  State<ActiveOrdersScreen> createState() => _ActiveOrdersScreenState();
+  State<UpcomingPaymentsScreen> createState() => _UpcomingPaymentsScreenState();
 }
 
-class _ActiveOrdersScreenState extends State<ActiveOrdersScreen> {
+class _UpcomingPaymentsScreenState extends State<UpcomingPaymentsScreen> {
 
+  UpcomingPaymentsController controller = Get.find<UpcomingPaymentsController>();
 
-
-  final OrdersController ordersController = Get.find<OrdersController>();
 
   @override
   void initState() {
-    ordersController.confirmedOrders.clear();
-    ordersController.getConfirmedOrders();
-    super.initState();
+    controller.payments.clear();
+    controller.getUnpaidPayments();
   }
-
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
@@ -50,7 +48,7 @@ class _ActiveOrdersScreenState extends State<ActiveOrdersScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text('الطلبات المنتهية : ',style: TextStyle(
+                        Text('الدفعات المتبقية',style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
                           fontFamily: 'Roboto',
@@ -61,44 +59,50 @@ class _ActiveOrdersScreenState extends State<ActiveOrdersScreen> {
                     SizedBox(height: 15.h,),
                     Obx((){
 
-                      if(ordersController.confirmedErrorMessage.isEmpty){
+                      if(controller.isLoading.isTrue){
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: ColorsManager.customTeal,
+                          ),
+                        );
+                      }else{
+                        if(controller.errorInPayments.isEmpty){
 
-                        if(ordersController.confirmedOrders.isNotEmpty){
-                          return AlignedGridView.count(
+                          if(controller.payments.isNotEmpty){
+                            return AlignedGridView.count(
                                 crossAxisCount: 1,
                                 mainAxisSpacing: 8,
                                 crossAxisSpacing: 16,
-                                itemCount: ordersController.confirmedOrders.length,
+                                itemCount: controller.payments.length,
                                 shrinkWrap: true,
                                 physics: BouncingScrollPhysics(),
                                 itemBuilder:(context,index){
-                                  return OrderCard(paymentType: ordersController.confirmedOrders[index].paymentType.toString(),
-                                      status: ordersController.confirmedOrders[index].status.toString(),
-                                      totalPrice: ordersController.confirmedOrders[index].totalPrice.toString(),
-                                      points: ordersController.confirmedOrders[index].usedPoint,
-                                      finalPrice: ordersController.confirmedOrders[index].finalPrice.toString(),
-                                      imagePath: ordersController.confirmedOrders[index].qrImagePath);
-                                });
+                                  return UpcomingPaymentCard(
+                                      controller.payments[index]
+                                  );
+                                });} else{
+                            return Center(
+                              child: Text('لا يوجد دفعات ',style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.w700,
+                              ),),
+                            );
+                          }
+
+
                         }else{
                           return Center(
-                            child: Text('لا يوجد طلبات ',style: TextStyle(
+                            child: Text('لا يوجد دفعات !! ',style: TextStyle(
                               fontSize: 16,
                               color: Colors.black54,
                               fontWeight: FontWeight.w700,
                             ),),
                           );
                         }
-
-
-                      }else{
-                        return Center(
-                          child: Text('لا يوجد طلبات !! ',style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w700,
-                          ),),
-                        );
                       }
+
+
 
                     })
                   ],

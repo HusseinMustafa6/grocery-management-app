@@ -11,6 +11,7 @@ import 'package:food_managemnet/controllers/orders_controller.dart';
 import 'package:food_managemnet/controllers/register_controller.dart';
 import 'package:food_managemnet/controllers/welcome_controller.dart';
 import 'package:food_managemnet/core/networking/dio_factory.dart';
+import 'package:food_managemnet/firebase_api.dart';
 import 'package:food_managemnet/models/item_models/item_details_model.dart';
 import 'package:food_managemnet/views/welcome_screen.dart';
 import 'package:get/get.dart';
@@ -18,8 +19,22 @@ import 'package:get/get_core/src/get_main.dart';
 import 'controllers/grocery_group_details_controller.dart';
 import 'food_management_app.dart';
 
-void main() {
+
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+// ...
+
+
+void main() async{
   initDependencyInjection();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await FirebaseApi().initNotifications();
+
   runApp(const FoodManagementApp());
 }
 
@@ -40,7 +55,6 @@ void initDependencyInjection(){
   Get.lazyPut(()=>GroceryGroupDetailsController());
   Get.put(NotificationsController());
   Get.put(ItemDetailsController());
-
 
 }
 

@@ -11,11 +11,14 @@ class OrderModel {
   int? points;
   @JsonKey(includeToJson: true)
   List<OrderItemModel> items;
+  @JsonKey(includeToJson: true)
+  List<OrderOfferModel> offers;
 
   OrderModel({
    required this.paymentType,
    required this.points,
-   required this.items
+   required this.items,
+   required this.offers
 });
 
 
@@ -44,4 +47,22 @@ class OrderItemModel {
 }
 
 
+@JsonSerializable()
+class OrderOfferModel {
+
+  @JsonKey(name: 'cart_offer_id')
+  int? cartOfferId;
+  int? quantity;
+
+  OrderOfferModel({
+    required this.cartOfferId,
+    required this.quantity
+});
+
+  OrderOfferModel.fromJson(Map<String,dynamic> object){
+
+  }
+
+  Map<String,dynamic> toJson()=> _$OrderOfferModelToJson(this);
+}
 

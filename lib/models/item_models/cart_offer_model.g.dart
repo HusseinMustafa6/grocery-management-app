@@ -25,7 +25,7 @@ CartOfferData _$CartOfferDataFromJson(Map<String, dynamic> json) =>
       offerId: (json['offer_id'] as num?)?.toInt(),
       offerTitle: json['discount_type'] as String?,
       description: json['description'] as String?,
-      discountValue: json['discount_value'] as String?,
+      discountValue: (json['discount_value'] as num?)?.toInt(),
       startDate: json['starts_at'] as String?,
       endDate: json['ends_at'] as String?,
     );

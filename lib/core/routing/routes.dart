@@ -24,4 +24,12 @@ static const String notificationsScreen = "/notificationsScreen";
 
   static const String addNewItemPropositionScreen = "/addNewItemPropositionScreen";
 
+
+  static const String changePasswordForFirstTime = "/changePasswordForFirstTime";
+
+  static const String activeOrdersScreen = "/activeOrdersScreen";
+
+  static const String upComingPayments = "/upComingPayments";
+
+
 }

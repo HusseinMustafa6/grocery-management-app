@@ -31,7 +31,7 @@ class CartOfferData {
     @JsonKey(name: 'discount_type')
     String? offerTitle; //"discount_type": "fixed_price",
     @JsonKey(name: 'discount_value')
-    String? discountValue; //  "discount_value": "25.00",
+    int? discountValue; //  "discount_value": "25.00",
     @JsonKey(name: 'description')
     String? description; //"description": null,
     @JsonKey(name: 'starts_at')

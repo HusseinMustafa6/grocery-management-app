@@ -11,7 +11,7 @@ class OfferModel{
   @JsonKey(name: 'discount_type')
   String? offerTitle; //"": "fixed_price",
   @JsonKey(name: 'discount_value')
-  String? discountValue; //"": "20.00",
+  int? discountValue; //"": "20.00",
   @JsonKey(name: 'description')
   String? description;// "": "by two with price of one",
 

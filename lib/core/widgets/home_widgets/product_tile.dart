@@ -58,7 +58,7 @@ class ProductTile extends StatelessWidget {
               padding:  EdgeInsets.symmetric(horizontal: 5.w),
               child: Row(
                 children: [
-                  Expanded(child: Text(product.id.toString(),textAlign:TextAlign.start, style: TextStyle(fontSize: 14,color: Colors.black54,fontWeight: FontWeight.w400,fontFamily: 'Roboto'),maxLines: 4,overflow: TextOverflow.ellipsis,)),
+                  Expanded(child: Text('',textAlign:TextAlign.start, style: TextStyle(fontSize: 14,color: Colors.black54,fontWeight: FontWeight.w400,fontFamily: 'Roboto'),maxLines: 4,overflow: TextOverflow.ellipsis,)),
                 ],
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:food_managemnet/controllers/home_controllers/notifications_controller.dart';
+import 'package:food_managemnet/core/theming/colors_manager.dart';
 import 'package:food_managemnet/core/widgets/home_widgets/notification_card.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -22,9 +23,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 2),(){
-      controller.getData();
-    });
+    controller.notifications.clear();
+    controller.getUserNotifications();
     super.initState();
   }
 
@@ -44,27 +44,54 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             child: Column(
               children: [
                 Obx((){
-                  if(controller.notifications.isNotEmpty){
 
-                    return   AlignedGridView.count(
-                      crossAxisCount: 1,
-                      itemCount: controller.notifications.length,
-                      mainAxisSpacing: 8,
-                      crossAxisSpacing: 8,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return NotificationCard(controller.notifications[index]);
-                      },
+                  if(controller.isLoading.isTrue){
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: ColorsManager.customTeal,
+                      ),
                     );
-
-
                   }else{
-                    return Container(
-                      margin: EdgeInsets.symmetric(vertical: 100.h,horizontal: 30.w),
-                      child: Text('لا يوجد إشعارات لعرضها',style: TextStyle(fontSize: 15,color: Colors.black54),),
-                    );
+
+                    if(controller.errorInNotifications.isEmpty){
+                      if(controller.notifications.isNotEmpty){
+
+                        return   AlignedGridView.count(
+                          crossAxisCount: 1,
+                          itemCount: controller.notifications.length,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return NotificationCard(controller.notifications[index]);
+                          },
+                        );
+
+
+                      }else{
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('لا يوجد إشعارات لعرضها',style: TextStyle(fontSize: 15,color: Colors.black54),),
+                          ],
+                        );
+                      }
+                    }else{
+
+                      return  Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(controller.errorInNotifications.value,style: TextStyle(fontSize: 15,color: Colors.black54),),
+                        ],
+                      );
+
+                    }
+
+
                   }
+
+
                 }),
 
               ],

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "917066903574",
+    "project_id": "admin-fe9d7",
+    "storage_bucket": "admin-fe9d7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:917066903574:android:8a09b15e4e07c4eebb8537",
+        "android_client_info": {
+          "package_name": "com.example.food_managemnet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq7LST6cocspk0az-94lazbcvqJx1-t-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:917066903574:android:30effed57d334f8fbb8537",
+        "android_client_info": {
+          "package_name": "com.example.untitled23333333333333333"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq7LST6cocspk0az-94lazbcvqJx1-t-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

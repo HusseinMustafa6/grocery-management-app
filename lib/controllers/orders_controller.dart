@@ -11,6 +11,10 @@ class OrdersController extends GetxController{
   late OrderService orderService;
   // = pending orders variables ==
   RxList<OrderModel> pendingOrders = <OrderModel>[].obs;
+  RxList<OrderModel> confirmedOrders = <OrderModel>[].obs;
+  RxString confirmedErrorMessage = ''.obs;
+
+
   RxBool pendingStatus = false.obs; // Api Response
   RxBool pendingLoading = true.obs;
   RxString pendingErrorMessage = ''.obs;
@@ -41,6 +45,18 @@ class OrdersController extends GetxController{
    }
   }
 
+  Future<Either<ErrorHandler,List<OrderModel>>> getConfirmedOrders()async{
+
+    try{
+      final response = await orderService.getConfirmedOrders();
+
+      confirmedOrders.addAll(response);
+      return Right(response);
+    }catch(error){
+      confirmedErrorMessage.value = 'No Data !';
+      return Left(ErrorHandler.handle(error));
+    }
+  }
 
 
 

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_managemnet/controllers/login_controller.dart';
 import 'package:food_managemnet/core/networking/dio_factory.dart';
 import 'package:food_managemnet/core/theming/colors_manager.dart';
+import 'package:food_managemnet/firebase_api.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../../core/helpers/app_regex.dart';
@@ -211,9 +212,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ))
                                   ],
                                 ));
-                      }, (success) {
-                         DioFactory.setTokenIntoHeaderAfterLogin(success.userData.token.toString());
-                         Navigator.pushNamed(context, Routes.homeScreen);
+                      }, (success)async {
+                        Navigator.pop(context);
+
+                        DioFactory.setTokenIntoHeaderAfterLogin(success.userData.token.toString());
+                        if(loginController.passwordController.text == '0000'){
+                           Navigator.pushNamed(context, Routes.changePasswordForFirstTime);
+
+                         }else{
+                           Navigator.pushNamed(context, Routes.homeScreen);
+
+                         }
+                        await FirebaseApi().storeFCMTokenToDB();
                       });
                     }
                   },

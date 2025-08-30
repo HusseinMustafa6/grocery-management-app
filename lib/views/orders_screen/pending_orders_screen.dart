@@ -23,6 +23,7 @@ class _PendingOrdersScreenState extends State<PendingOrdersScreen> {
 
   @override
   void initState() {
+    pendingOrdersController.pendingOrders.clear();
     pendingOrdersController.getPendingOrders();
   }
 

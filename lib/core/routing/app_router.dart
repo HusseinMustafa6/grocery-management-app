@@ -9,7 +9,10 @@ import 'package:food_managemnet/views/home_screens/home_screen.dart';
 import 'package:food_managemnet/views/authentication_screens/register_screen.dart';
 import 'package:food_managemnet/views/home_screens/notifications_screen.dart';
 import 'package:food_managemnet/views/item_details_screen.dart';
+import 'package:food_managemnet/views/orders_screen/active_orders_screen.dart';
 import 'package:food_managemnet/views/orders_screen/pending_orders_screen.dart';
+import 'package:food_managemnet/views/upcoming_payments/upcoming_payments_screen.dart';
+import 'package:food_managemnet/views/update_screens/change_password_for_first_time_screen.dart';
 import 'package:food_managemnet/views/update_screens/change_password_screen.dart';
 import 'package:food_managemnet/views/welcome_screen.dart';
 import 'package:get/get.dart';
@@ -22,9 +25,12 @@ class AppRouter{
     Routes.registerScreen:(context)=> RegisterScreen(),
     Routes.loginScreen:(context)=> LoginScreen(),
     Routes.homeScreen:(context)=> HomeScreen(),
+    Routes.activeOrdersScreen:(context)=> ActiveOrdersScreen(),
     Routes.ordersScreen:(context)=>PendingOrdersScreen(),
     Routes.changePasswordScreen:(context)=> ChangePasswordScreen(),
     Routes.notificationsScreen:(context)=> NotificationsScreen(),
+    Routes.upComingPayments:(context)=> UpcomingPaymentsScreen(),
+    Routes.changePasswordForFirstTime:(context)=> ChangePasswordForFirstTimeScreen(),
     Routes.itemDetailsScreen : (context)=> ItemDetailsScreen(itemId: ModalRoute.of(context)?.settings.arguments as int? ),
     Routes.addNewItemPropositionScreen:(context)=> AddNewItemPropositionScreen()
   };

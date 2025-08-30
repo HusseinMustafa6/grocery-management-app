@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:food_managemnet/core/networking/api_constants.dart';
 import 'package:food_managemnet/models/home_models/grocery_model.dart';
+import 'package:food_managemnet/models/home_models/notification_model.dart';
 import 'package:food_managemnet/models/home_models/product_model.dart';
 import 'package:food_managemnet/models/item_models/check_out_order_response.dart';
 import 'package:food_managemnet/models/item_models/item_details_model.dart';
@@ -159,6 +160,27 @@ class HomeService{
     }
 
   }
+
+
+  Future<List<NotificationModel>> getUserNotifications()async{
+
+    String url = ApiConstants.baseUrl + ApiConstants.getUserNotifications;
+
+    try{
+
+    Response response = await dio.get(url);
+    
+    if(response.statusCode == 200){
+      List<dynamic> rawData = response.data;
+      return rawData.map((obj)=> NotificationModel.fromJson(obj)).toList();
+    }
+
+     return [];
+    }catch(error){
+      rethrow;
+    }
+  }
+
 
 
 

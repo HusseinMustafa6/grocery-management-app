@@ -1,26 +1,44 @@
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:food_managemnet/core/networking/api_error_handler.dart';
 import 'package:food_managemnet/models/home_models/notification_model.dart';
+import 'package:food_managemnet/services/home_service.dart';
 import 'package:get/get.dart';
 
 class NotificationsController extends GetxController{
 
   late RxList<NotificationModel> notifications;
+  late HomeService homeService;
 
+  RxString errorInNotifications = ''.obs;
+  RxBool isLoading = true.obs;
 
   @override
   void onInit() {
     notifications = <NotificationModel>[].obs;
+    homeService = HomeService(Get.find<Dio>());
     super.onInit();
   }
 
 
   void getData(){
-    notifications.add(NotificationModel(title: 'Notification 1', content: 'description about this notification , description about this notification description about this notification', date: '2020'));
-    notifications.add(NotificationModel(title: 'Notification 2', content: 'description about this notification , description about this notification description about this notification', date: '2020'));
-    notifications.add(NotificationModel(title: 'Notification 3', content: 'description about this notification , description about this notification description about this notification', date: '2020'));
-    notifications.add(NotificationModel(title: 'Notification 4', content: 'description about this notification , description about this notification description about this notification', date: '2020'));
-    notifications.add(NotificationModel(title: 'Notification 5', content: 'description about this notification', date: '2020'));
-    notifications.add(NotificationModel(title: 'Notification 6', content: 'description about this notification', date: '2020'));
-    notifications.add(NotificationModel(title: 'Notification 7', content: 'description about this notification', date: '2020'));
+
+  }
+
+  Future<Either<ErrorHandler,List<NotificationModel>>> getUserNotifications()async{
+
+    try{
+
+      final response = await homeService.getUserNotifications();
+
+      notifications.addAll(response);
+      isLoading.value = false;
+      return Right(response);
+    }catch(error){
+      errorInNotifications.value = 'No Data ';
+     return Left(ErrorHandler.handle(error));
+    }
+
 
   }
 

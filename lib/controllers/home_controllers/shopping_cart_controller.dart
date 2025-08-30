@@ -51,14 +51,22 @@ class ShoppingCartController extends GetxController{
     int currentItemQuantity = 0;
     double currentItemPrice = 0.0;
 
-    if(cartItems.isEmpty){
-      return;
+    if(cartItems.isNotEmpty){
+      for(CartItemModel item in cartItems){
+        currentItemQuantity = num.parse(item.quantity.toString()).toInt();
+        currentItemPrice = num.parse(item.priceForOne.toString()).toDouble();
+        sum += currentItemPrice * currentItemQuantity;
+      }
     }
-    for(CartItemModel item in cartItems){
-      currentItemQuantity = num.parse(item.quantity.toString()).toInt();
-      currentItemPrice = num.parse(item.priceForOne.toString()).toDouble();
-      sum += currentItemPrice * currentItemQuantity;
+
+    if(cartOffers.isNotEmpty){
+      for(CartOfferModel offer in cartOffers){
+       sum += num.parse(offer.data.discountValue.toString()).toDouble();
+      }
+
+
     }
+
 
     // for(GroceryItem item in cartItems){
     //   sum += item.itemPrice! * item.quantity.value;
@@ -173,11 +181,17 @@ class ShoppingCartController extends GetxController{
        quantity:num.parse(obj.quantity.toString()).toInt())).toList();
 
 
+   List<OrderOfferModel> currentOffers = cartOffers.map((obj)=>OrderOfferModel(cartOfferId: obj.cartOfferId,
+       quantity: num.parse(obj.quantity.toString()).toInt())).toList();
+
+
     try{
     OrderModel order = OrderModel(
         paymentType: selectedPaymentType.value,
         points: 0,
-        items: currentItems);
+        items: currentItems,
+        offers: currentOffers
+    );
 
     final response = await service.checkOutOrder(order);
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_managemnet/controllers/home_controllers/home_controller.dart';
+import 'package:food_managemnet/controllers/home_controllers/home_main_screen_controller.dart';
+import 'package:food_managemnet/controllers/home_controllers/notifications_controller.dart';
 import 'package:food_managemnet/controllers/home_controllers/shopping_cart_controller.dart';
 import 'package:food_managemnet/core/routing/routes.dart';
 import 'package:food_managemnet/core/theming/colors_manager.dart';
@@ -49,9 +51,11 @@ class HomeScreen extends StatelessWidget {
                buildDivider(),
 
                buildDrawerTile(Icons.list_alt,'الطلبات الجاهزة', () {
+                 Navigator.pushNamed(context, Routes.activeOrdersScreen);
                }),
                buildDivider(),
                buildDrawerTile(Icons.calculate_sharp,'الفواتير', () {
+                 Navigator.pushNamed(context, Routes.upComingPayments);
                }),
                buildDivider(),
                buildDrawerTile(Icons.add_box_rounded,'تقديم اقتراح', () {
@@ -111,6 +115,10 @@ class HomeScreen extends StatelessWidget {
           IconButton(
               onPressed: () {
                 Navigator.pushNamed(context, Routes.notificationsScreen);
+
+                NotificationsController controller = Get.find<NotificationsController>();
+                controller.notifications.clear();
+                controller.getUserNotifications();
               },
               splashRadius: 20,
               icon: Icon(
@@ -174,7 +182,16 @@ class HomeScreen extends StatelessWidget {
               controller.cartOffers.clear();
               controller.getUserCartItems();
             }
-
+           if(value == 0){
+             HomeMainScreenController controller = Get.find<HomeMainScreenController>();
+             controller.allOffers.clear();
+             controller.allItems.clear();
+             controller.categories.clear();
+             controller.getGroceryGroupsCategories();
+             controller.getAllItems();
+             controller.getUserPoints();
+             controller.getAllOffers();
+           }
          },
 
 

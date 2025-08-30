@@ -245,16 +245,24 @@ class _ShopingCartScreenState extends State<ShopingCartScreen> {
                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
                      child: Obx(() {
                        if (controller.cartOffers.isNotEmpty) {
-                         return AlignedGridView.count(
-                           crossAxisCount: 1,
-                           itemCount: controller.cartOffers.length,
-                           mainAxisSpacing: 8,
-                           crossAxisSpacing: 8,
-                           shrinkWrap: true,
-                           physics: BouncingScrollPhysics(),
-                           itemBuilder: (context, index) {
-                             return CartOfferCard(controller.cartOffers[index]);
-                           },
+                         return Stack(
+                           children: [
+                             AlignedGridView.count(
+                               crossAxisCount: 1,
+                               itemCount: controller.cartOffers.length,
+                               mainAxisSpacing: 8,
+                               crossAxisSpacing: 8,
+                               shrinkWrap: true,
+                               physics: BouncingScrollPhysics(),
+                               itemBuilder: (context, index) {
+                                 return CartOfferCard(controller.cartOffers[index]);
+                               },
+                             ),
+                             Align(
+                               alignment: Alignment.bottomCenter,
+                               child: _buildCheckOutWidget(context),
+                             )
+                           ],
                          );
                        } else {
                          // return Center(

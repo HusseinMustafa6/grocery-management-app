@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:food_managemnet/core/theming/colors_manager.dart';
 import 'package:food_managemnet/core/widgets/category_filter_chip.dart';
 import 'package:food_managemnet/models/home_models/grocery_model.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../controllers/grocery_group_details_controller.dart';
+import '../core/widgets/home_widgets/product_tile.dart';
 
 
 class GroceryGroupDetailsScreen extends StatefulWidget {
@@ -26,7 +29,8 @@ class _GroceryGroupDetailsScreenState extends State<GroceryGroupDetailsScreen> {
 
   @override
   void initState() {
-    controller.getSubcategories(widget.groceryGroupID);
+    controller.items.clear();
+    controller.getItemsInCategory(widget.groceryGroupID);
     super.initState();
   }
 
@@ -56,7 +60,7 @@ class _GroceryGroupDetailsScreenState extends State<GroceryGroupDetailsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildTitleText('المجموعات الغذائية:'),
+                _buildTitleText('المنتجات في هذا التصنيف:'),
                  SizedBox(height: 18.h,),
                 Obx((){
 
@@ -75,7 +79,58 @@ class _GroceryGroupDetailsScreenState extends State<GroceryGroupDetailsScreen> {
                   }
                   return Text('حدث خطأ ما',style: TextStyle(fontSize: 15,color: Colors.black54),);
                 }),
+                Obx((){
 
+                  if(controller.isLoading.isTrue){
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: ColorsManager.customTeal,
+                      ),
+                    );
+                  }else{
+
+                    if(controller.errorInItems.isEmpty){
+
+                      if(controller.items.isNotEmpty){
+                        return AlignedGridView.count(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 8,
+                            crossAxisSpacing: 16,
+                            itemCount: controller.items.length,
+                            shrinkWrap: true,
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder:(context,index){
+                              return ProductTile(controller.items[index]);
+                            });
+                      }else{
+                        return Container(
+                          margin: EdgeInsets.symmetric(vertical: 15.h,horizontal: 10.w),
+                          child: Text('لا يوجد منتجات',style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black54
+                          ),),
+                        );
+                      }
+
+
+                    }else{
+
+                      return Container(
+                        margin: EdgeInsets.symmetric(vertical: 15.h,horizontal: 10.w),
+                        child: Text(controller.errorInItems.value,style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black54
+                        ),),
+                      );
+
+                    }
+
+
+                  }
+
+                }),
 
               ],
             ),

@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     setState(() {
-      profileController.getData();
+      profileController.getUserProfile();
 
     });
   }
@@ -88,57 +88,76 @@ class _ProfileScreenState extends State<ProfileScreen> {
         padding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 20.h),
         child: Column(
           children: [
+            // Container(
+            //   padding: EdgeInsets.only(
+            //     top: 30,
+            //   ),
+            //   //height: MediaQuery.of(context).size.height *0.2,
+            //   child: Column(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Stack(children: [
+            //         Container(
+            //           child: profileController.testImage == null
+            //               ? CircleAvatar(
+            //             radius: 50.0,
+            //             backgroundImage: AssetImage(
+            //               'assets/images/profile_place_holder.png',
+            //             ),
+            //           )
+            //               :  CircleAvatar(
+            //             radius: 50.0,
+            //             backgroundImage: FileImage(profileController.testImage!),
+            //           ),
+            //         ),
+            //         Positioned(
+            //             top: -8,
+            //             left: 67,
+            //             child: Container(
+            //               decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(12),
+            //                 color: Colors.white,
+            //               ),
+            //               child: IconButton(
+            //                 onPressed: () async {
+            //
+            //                   await pickImage(ImageSource.gallery);
+            //                 },
+            //                 icon: Icon(
+            //                   Icons.edit,
+            //                   size: 20,
+            //                   color: ColorsManager.customTeal,
+            //                 ),
+            //                 splashRadius: 10,
+            //               ),
+            //             ))
+            //       ]),
+            //       Text(
+            //         profileController.userNameController.text,
+            //         style: TextStyle(color: Colors.black, fontSize: 18),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+
             Container(
-              padding: EdgeInsets.only(
-                top: 30,
+              margin: EdgeInsets.symmetric(
+                vertical: 30.h,
+                horizontal: 10.w
               ),
-              //height: MediaQuery.of(context).size.height *0.2,
-              child: Column(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Stack(children: [
-                    Container(
-                      child: profileController.testImage == null
-                          ? CircleAvatar(
-                        radius: 50.0,
-                        backgroundImage: AssetImage(
-                          'assets/images/profile_place_holder.png',
-                        ),
-                      )
-                          :  CircleAvatar(
-                        radius: 50.0,
-                        backgroundImage: FileImage(profileController.testImage!),
-                      ),
-                    ),
-                    Positioned(
-                        top: -8,
-                        left: 67,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                          ),
-                          child: IconButton(
-                            onPressed: () async {
-
-                              await pickImage(ImageSource.gallery);
-                            },
-                            icon: Icon(
-                              Icons.edit,
-                              size: 20,
-                              color: ColorsManager.customTeal,
-                            ),
-                            splashRadius: 10,
-                          ),
-                        ))
-                  ]),
-                  Text(
-                    profileController.userNameController.text,
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ),
+                  Text('الملف الشخصي',style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: ColorsManager.customTeal,
+                    fontFamily: 'Roboto'
+                  ),)
                 ],
               ),
             ),
+
             SizedBox(height: 50.h,),
             _buildEntryFiled('ادخل اسم المستخدم..', profileController.userNameController, profileController.enableEdit),
             _buildEntryFiled('البريد الإلكتروني الخاص بك..', profileController.emailController, profileController.enableEdit),
