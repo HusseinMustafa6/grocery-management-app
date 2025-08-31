@@ -85,9 +85,26 @@ class ProfileController extends GetxController{
      return Left(ErrorHandler.handle(error));
     }
   }
-  
-  
 
+
+  Future<Either<ErrorHandler,String>> updateUserProfile({
+    required String? newName,
+    required String? newPhone
+  })async {
+
+    try{
+      final response = await profileService.updateUserProfile(newName: newName,
+          newPhone: newPhone);
+
+
+
+      return Right(response);
+    }catch(error){
+      return Left(ErrorHandler.handle(error));
+    }
+
+
+  }
 
 
 

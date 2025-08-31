@@ -70,7 +70,7 @@ class ApiConstants {
   // PRofile APIs
  static const String changePassword = "updateProfile";
 
-
+ static const String updateProfile = "updateProfile";
 
 
  static const String getUserProfile = "profile";

@@ -140,8 +140,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
           ),
         ),
         onPressed: (){
-          
-          
+
+          controller.mapUnitsToCurrentItem();
+
           showDialog(context: context,
               builder: (ctx){
             return AlertDialog(

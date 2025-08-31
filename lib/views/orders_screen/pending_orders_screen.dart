@@ -39,88 +39,82 @@ class _PendingOrdersScreenState extends State<PendingOrdersScreen> {
         }, icon: Icon(Icons.arrow_back,color: ColorsManager.customTeal,size: 27,)),
       ),
       body: SafeArea(
-        child: CustomScrollView(
-          slivers:[
-            SliverFillRemaining(
-              hasScrollBody: true,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.h,horizontal: 15.w),
-                child: Column(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 20.h,horizontal: 15.w),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text('الطلبات المعلقة : ',style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'Roboto',
-                          color: ColorsManager.customTeal,
-                        ),)
-                      ],
-                    ),
-                    SizedBox(height: 15.h,),
-
-                    Obx((){
-
-                      if(pendingOrdersController.pendingLoading.isTrue){
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: ColorsManager.customTeal,
-                          ),
-                        );
-                      }else{
-
-                        if(pendingOrdersController.pendingStatus.isTrue){
-                          // Get The Data
-                         if(pendingOrdersController.pendingOrders.isNotEmpty){
-                           return
-                             AlignedGridView.count(
-                                 crossAxisCount: 1,
-                                 mainAxisSpacing: 8,
-                                 crossAxisSpacing: 16,
-                                 itemCount: pendingOrdersController.pendingOrders.length,
-                                 shrinkWrap: true,
-                                 physics: BouncingScrollPhysics(),
-                                 itemBuilder:(context,index){
-                                   return OrderCard(paymentType: pendingOrdersController.pendingOrders[index].paymentType.toString(),
-                                       status: pendingOrdersController.pendingOrders[index].status.toString(),
-                                       totalPrice: pendingOrdersController.pendingOrders[index].totalPrice.toString(),
-                                       points: pendingOrdersController.pendingOrders[index].usedPoint,
-                                       finalPrice: pendingOrdersController.pendingOrders[index].finalPrice.toString(),
-                                       imagePath: pendingOrdersController.pendingOrders[index].qrImagePath);
-                                 });
-                         }else{
-                           return Center(
-                             child: Text('لا يوجد طلبات معلقة',style: TextStyle(
-                               fontSize: 16,
-                               color: Colors.black54,
-                               fontWeight: FontWeight.w700,
-                             ),),
-                           );
-                         }
-
-                        }else{
-                          // API ERROR
-                          return Center(
-                            child: Text('SERVER ERROR',style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w700,
-                            ),),
-                          );
-                        }
-
-
-                      }
-
-                    }),
-
+                    Text('الطلبات المعلقة : ',style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Roboto',
+                      color: ColorsManager.customTeal,
+                    ),)
                   ],
                 ),
-              ) ,
-            )
+                SizedBox(height: 15.h,),
 
-          ]
+                Obx((){
+
+                  if(pendingOrdersController.pendingLoading.isTrue){
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: ColorsManager.customTeal,
+                      ),
+                    );
+                  }else{
+
+                    if(pendingOrdersController.pendingStatus.isTrue){
+                      // Get The Data
+                      if(pendingOrdersController.pendingOrders.isNotEmpty){
+                        return
+                          AlignedGridView.count(
+                              crossAxisCount: 1,
+                              mainAxisSpacing: 8,
+                              crossAxisSpacing: 16,
+                              itemCount: pendingOrdersController.pendingOrders.length,
+                              shrinkWrap: true,
+                              physics: BouncingScrollPhysics(),
+                              itemBuilder:(context,index){
+                                return OrderCard(paymentType: pendingOrdersController.pendingOrders[index].paymentType.toString(),
+                                    status: pendingOrdersController.pendingOrders[index].status.toString(),
+                                    totalPrice: pendingOrdersController.pendingOrders[index].totalPrice.toString(),
+                                    points: pendingOrdersController.pendingOrders[index].usedPoint,
+                                    finalPrice: pendingOrdersController.pendingOrders[index].finalPrice.toString(),
+                                    imagePath: pendingOrdersController.pendingOrders[index].qrImagePath);
+                              });
+                      }else{
+                        return Center(
+                          child: Text('لا يوجد طلبات معلقة',style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.w700,
+                          ),),
+                        );
+                      }
+
+                    }else{
+                      // API ERROR
+                      return Center(
+                        child: Text('SERVER ERROR',style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w700,
+                        ),),
+                      );
+                    }
+
+
+                  }
+
+                }),
+
+              ],
+            ),
+          ),
         ),
       ),
     );

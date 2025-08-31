@@ -9,6 +9,7 @@ import 'package:food_managemnet/controllers/item_details_controller.dart';
 import 'package:food_managemnet/controllers/login_controller.dart';
 import 'package:food_managemnet/controllers/orders_controller.dart';
 import 'package:food_managemnet/controllers/register_controller.dart';
+import 'package:food_managemnet/controllers/upcoming_payments_controller.dart';
 import 'package:food_managemnet/controllers/welcome_controller.dart';
 import 'package:food_managemnet/core/networking/dio_factory.dart';
 import 'package:food_managemnet/firebase_api.dart';
@@ -55,6 +56,7 @@ void initDependencyInjection(){
   Get.lazyPut(()=>GroceryGroupDetailsController());
   Get.put(NotificationsController());
   Get.put(ItemDetailsController());
+  Get.put(UpcomingPaymentsController());
 
 }
 

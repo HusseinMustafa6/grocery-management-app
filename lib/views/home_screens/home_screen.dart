@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_managemnet/controllers/home_controllers/home_controller.dart';
 import 'package:food_managemnet/controllers/home_controllers/home_main_screen_controller.dart';
 import 'package:food_managemnet/controllers/home_controllers/notifications_controller.dart';
+import 'package:food_managemnet/controllers/home_controllers/profile_controller.dart';
 import 'package:food_managemnet/controllers/home_controllers/shopping_cart_controller.dart';
 import 'package:food_managemnet/core/routing/routes.dart';
 import 'package:food_managemnet/core/theming/colors_manager.dart';
@@ -163,14 +164,7 @@ class HomeScreen extends StatelessWidget {
              title:  Text('الملف الشخصي',style: TextStyle(fontSize: 14,color: ColorsManager.customTeal,fontWeight: FontWeight.w500,fontFamily: 'Roboto'),),
              badgePadding: const EdgeInsets.only(left: 4, right: 4),
            ),
-           BottomBarItem(
-             icon: Icon(Icons.search_outlined),
-             selectedIcon: Icon(Icons.search),
-             selectedColor: ColorsManager.customTeal,
-             unSelectedColor: Colors.grey,
-             title:  Text('اكتشاف',style: TextStyle(fontSize: 14,color: ColorsManager.customTeal,fontWeight: FontWeight.w500,fontFamily: 'Roboto'),),
-             badgePadding: const EdgeInsets.only(left: 4, right: 4),
-           ),
+
          ],
          hasNotch: false,
          currentIndex: homeController.selectedIndex.value,
@@ -182,16 +176,26 @@ class HomeScreen extends StatelessWidget {
               controller.cartOffers.clear();
               controller.getUserCartItems();
             }
-           if(value == 0){
-             HomeMainScreenController controller = Get.find<HomeMainScreenController>();
-             controller.allOffers.clear();
-             controller.allItems.clear();
-             controller.categories.clear();
-             controller.getGroceryGroupsCategories();
-             controller.getAllItems();
-             controller.getUserPoints();
-             controller.getAllOffers();
+
+           if(value == 2){
+             ProfileController controller = Get.find<ProfileController>();
+
+             controller.getUserProfile();
+
            }
+
+
+
+           // if(value == 0){
+           //   HomeMainScreenController controller = Get.find<HomeMainScreenController>();
+           //   controller.allOffers.clear();
+           //   controller.allItems.clear();
+           //   controller.categories.clear();
+           //   controller.getGroceryGroupsCategories();
+           //   controller.getAllItems();
+           //   controller.getUserPoints();
+           //   controller.getAllOffers();
+           // }
          },
 
 
@@ -199,3 +203,13 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+/*
+  BottomBarItem(
+             icon: Icon(Icons.search_outlined),
+             selectedIcon: Icon(Icons.search),
+             selectedColor: ColorsManager.customTeal,
+             unSelectedColor: Colors.grey,
+             title:  Text('اكتشاف',style: TextStyle(fontSize: 14,color: ColorsManager.customTeal,fontWeight: FontWeight.w500,fontFamily: 'Roboto'),),
+             badgePadding: const EdgeInsets.only(left: 4, right: 4),
+           ),
+ */

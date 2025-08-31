@@ -30,7 +30,7 @@ class GroceryGroupTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.asset( groceryGroupModel.groupName.toString() == 'category 3 test' ? 'assets/svgs/canned_food.svg':'assets/svgs/salt_and_pepper.svg',
+            SvgPicture.asset( groceryGroupModel.id == 1  ? 'assets/svgs/canned_food.svg':groceryGroupModel.id == 4  ? 'assets/svgs/beans.svg':'assets/svgs/salt_and_pepper.svg',
             width: 24.w,height:24.h ,
             ),
             SizedBox(height: 5.h,),

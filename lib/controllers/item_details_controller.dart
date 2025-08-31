@@ -81,7 +81,7 @@ class  ItemDetailsController extends GetxController {
     try{
       allUnits = response;
       currentUnits?.clear();
-      mapUnitsToCurrentItem();
+     // mapUnitsToCurrentItem();
       return Right(response);
     }catch(error){
       return Left(ErrorHandler.handle(error));

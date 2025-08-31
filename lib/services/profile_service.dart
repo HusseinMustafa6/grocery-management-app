@@ -52,6 +52,35 @@ class ProfileService{
   }
 
 
+  Future<String> updateUserProfile({
+    required String? newName,
+    required String? newPhone
+})async{
+
+  String url = ApiConstants.baseUrl + ApiConstants.updateProfile;
+
+  try{
+
+  Response response = await dio.post(url,data: {
+   'name':newName,
+    'customer':{
+     'phone_number':newPhone
+    }
+  });
+
+   if(response.statusCode == 200){
+     return response.data['message'];
+   }
+  return 'Something Went Wrong';
+  }catch(error){
+    rethrow;
+  }
+
+  }
+
+
+
+
 
 
 

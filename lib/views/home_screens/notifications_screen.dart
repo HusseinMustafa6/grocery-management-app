@@ -17,6 +17,10 @@ class NotificationsScreen extends StatefulWidget {
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
 
+  /*
+  php artisan config:clear
+php artisan config:cache
+   */
 
   NotificationsController controller = Get.find<NotificationsController>();
 

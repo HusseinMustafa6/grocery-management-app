@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:food_managemnet/controllers/home_controllers/profile_controller.dart';
 import 'package:food_managemnet/core/routing/routes.dart';
@@ -160,14 +161,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
             SizedBox(height: 50.h,),
             _buildEntryFiled('ادخل اسم المستخدم..', profileController.userNameController, profileController.enableEdit),
-            _buildEntryFiled('البريد الإلكتروني الخاص بك..', profileController.emailController, profileController.enableEdit),
             _buildEntryFiled('رقم الهاتف..', profileController.phoneController, profileController.enableEdit),
             SizedBox(height: 50.h,),
             CustomButton(
                 buttonWidth: MediaQuery.of(context).size.width * 0.7,
                 buttonHeight: 60,
-                buttonText: 'تعديل', textStyle: TextStyle(fontSize: 16,color: Colors.white,fontWeight: FontWeight.w600,fontFamily: 'Roboto'), onPressed: (){
+                buttonText: 'تعديل', textStyle: TextStyle(fontSize: 16,color: Colors.white,fontWeight: FontWeight.w600,fontFamily: 'Roboto'), onPressed: ()async{
+
+                 if(profileController.enableEdit.isTrue){
+                   final response = await profileController.updateUserProfile(newName: profileController.userNameController.text,
+                       newPhone: profileController.phoneController.text);
+
+                   response.fold((error){
+                     EasyLoading.showError(error.apiErrorModel.message.toString(),
+                     dismissOnTap: false,
+                     duration: Duration(seconds: 2));
+                   },(successMessage){
+                     EasyLoading.showSuccess(successMessage,
+                     dismissOnTap: true,
+                     duration: Duration(seconds: 2));
+                   });
+
+                 }
                  profileController.enableEdit.toggle();
+
+
+
             }),
             SizedBox(height: 30.h,),
             CustomButton(

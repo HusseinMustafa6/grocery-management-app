@@ -40,14 +40,75 @@ class _ActiveOrdersScreenState extends State<ActiveOrdersScreen> {
         }, icon: Icon(Icons.arrow_back,color: ColorsManager.customTeal,size: 27,)),
       ),
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20.h,horizontal: 15.w),
-                child: Column(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 20.h,horizontal: 15.w),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
+                    Text('الطلبات المنتهية : ',style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Roboto',
+                      color: ColorsManager.customTeal,
+                    ),)
+                  ],
+                ),
+                SizedBox(height: 15.h,),
+                Obx((){
+
+                  if(ordersController.confirmedErrorMessage.isEmpty){
+
+                    if(ordersController.confirmedOrders.isNotEmpty){
+                      return AlignedGridView.count(
+                          crossAxisCount: 1,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 16,
+                          itemCount: ordersController.confirmedOrders.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder:(context,index){
+                            return OrderCard(paymentType: ordersController.confirmedOrders[index].paymentType.toString(),
+                                status: ordersController.confirmedOrders[index].status.toString(),
+                                totalPrice: ordersController.confirmedOrders[index].totalPrice.toString(),
+                                points: ordersController.confirmedOrders[index].usedPoint,
+                                finalPrice: ordersController.confirmedOrders[index].finalPrice.toString(),
+                                imagePath: ordersController.confirmedOrders[index].qrImagePath);
+                          });
+                    }else{
+                      return Center(
+                        child: Text('لا يوجد طلبات ',style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w700,
+                        ),),
+                      );
+                    }
+
+
+                  }else{
+                    return Center(
+                      child: Text('لا يوجد طلبات !! ',style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w700,
+                      ),),
+                    );
+                  }
+
+                })
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+/*
+Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text('الطلبات المنتهية : ',style: TextStyle(
@@ -101,13 +162,4 @@ class _ActiveOrdersScreenState extends State<ActiveOrdersScreen> {
                       }
 
                     })
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
+ */
